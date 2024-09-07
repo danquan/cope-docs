@@ -1,4 +1,4 @@
-# VNOJ: Modern Online Judge
+# COPE: CSP Online Judge
 
 This documentation aims to guide you through installing your own VNOJ instance.
 

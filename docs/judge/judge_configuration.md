@@ -1,8 +1,8 @@
 # Configuring a judge
 
-The VNOJ judge is configured with a YAML file, which contains the runtimes, problems folders, and other information.
+The COPE judge is configured with a YAML file, which contains the runtimes, problems folders, and other information.
 
-A sample configuration file is available [here](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/judge_conf.yml).
+A sample configuration file is available [here](https://github.com/danquan/cope-docs/blob/master/sample_files/judge_conf.yml).
 
 ## Runtimes
 
