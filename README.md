@@ -1,7 +1,7 @@
-# VNOJ Documentation
+# COPE Documentation
 
-Documentation for the [VNOJ](https://github.com/VNOI-Admin/OJ) system.
+Documentation for the [COPE](https://github.com/danquan/OJ) system.
 
-VNOJ is based on [DMOJ](https://github.com/DMOJ/online-judge) and serves as the official online judge of [VNOI](https://vnoi.info/).
+COPE is a custome version of [VNOJ](https://github.com/VNOI-Admin/OJ), which is based on [DMOJ](https://github.com/DMOJ/online-judge).
 
-Access the documentation at <https://vnoi-admin.github.io/vnoj-docs>.
+Access the documentation at <https://github.com/danquan/cope-docs>.
