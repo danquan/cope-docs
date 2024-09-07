@@ -31,37 +31,37 @@ mariadb> exit
 
 ## Installing prerequisites
 
-Now that you are done, you can start installing the site. First, create a virtual environment and activate it. Here, we'll create a virtual environment named `vnojsite`.
+Now that you are done, you can start installing the site. First, create a virtual environment and activate it. Here, we'll create a virtual environment named `copevenv`.
 
 ```shell-session
-$ python3 -m venv vnojsite
-$ . vnojsite/bin/activate
+$ python3 -m venv copevenv
+$ . copevenv/bin/activate
 ```
 
-You should see `(vnojsite)` prepended to your shell. Henceforth, `(vnojsite)` commands assume you are in the code directory, with the virtual environment active.
+You should see `(copevenv)` prepended to your shell. Henceforth, `(copevenv)` commands assume you are in the code directory, with the virtual environment active.
 
 ?> The virtual environment will help keep the modules needed separate from the system package manager, and save you many headaches when updating. Read more about virtual environments [here](https://docs.python.org/3/tutorial/venv.html).
 
 Now, fetch the site source code:
 
 ```shell-session
-(vnojsite) $ git clone --recursive https://github.com/VNOI-Admin/OJ.git site
-(vnojsite) $ cd site
+(copevenv) $ git clone --recursive https://github.com/VNOI-Admin/OJ.git site
+(copevenv) $ cd site
 ```
 
 Install Python dependencies into the virtual environment.
 
 ```shell-session
-(vnojsite) $ pip3 install -r requirements.txt
+(copevenv) $ pip3 install -r requirements.txt
 ```
 
 Install Node.js packages:
 
 ```shell-session
-(vnojsite) $ npm install
+(copevenv) $ npm install
 ```
 
-You will now need to configure `dmoj/local_settings.py`. You should make a copy of [this sample settings file](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/local_settings.py) and read through it, making changes as necessary. Most importantly, you will want to update MariaDB credentials.
+You will now need to configure `dmoj/local_settings.py`. You should make a copy of [this sample settings file](https://github.com/danquan/cope-docs/blob/master/sample_files/local_settings.py) and read through it, making changes as necessary. Most importantly, you will want to update MariaDB credentials.
 
 ?> Leave debug mode on for now; we'll disable it later after we've verified that the site works. <br> <br>
 Generally, it's recommended that you add your settings in `dmoj/local_settings.py` rather than modifying `dmoj/settings.py` directly. `settings.py` will automatically read `local_settings.py` and load it, so write your configuration there.
@@ -71,20 +71,20 @@ Generally, it's recommended that you add your settings in `dmoj/local_settings.p
 VNOJ uses `sass` and `autoprefixer` to generate the site stylesheets. VNOJ comes with a `make_style.sh` script that may be run to compile and optimize the stylesheets.
 
 ```shell-session
-(vnojsite) $ ./make_style.sh
+(copevenv) $ ./make_style.sh
 ```
 
 Now, collect static files into `STATIC_ROOT` as specified in `dmoj/local_settings.py`.
 
 ```shell-session
-(vnojsite) $ ./manage.py collectstatic
+(copevenv) $ ./manage.py collectstatic
 ```
 
 You will also need to generate internationalization files.
 
 ```shell-session
-(vnojsite) $ ./manage.py compilemessages
-(vnojsite) $ ./manage.py compilejsi18n
+(copevenv) $ ./manage.py compilemessages
+(copevenv) $ ./manage.py compilejsi18n
 ```
 
 ## Setting up Celery
@@ -106,15 +106,15 @@ We will test that Celery works soon.
 We must generate the schema for the database, since it is currently empty.
 
 ```shell-session
-(vnojsite) $ ./manage.py migrate
+(copevenv) $ ./manage.py migrate
 ```
 
 Next, load some initial data so that your install is not entirely blank.
 
 ```shell-session
-(vnojsite) $ ./manage.py loaddata navbar
-(vnojsite) $ ./manage.py loaddata language_small
-(vnojsite) $ ./manage.py loaddata demo
+(copevenv) $ ./manage.py loaddata navbar
+(copevenv) $ ./manage.py loaddata language_small
+(copevenv) $ ./manage.py loaddata demo
 ```
 
 !> Keep in mind that the `demo` fixture creates a superuser account with a username and password of `admin`. If your
@@ -123,7 +123,7 @@ site is exposed to others, you should change the user's password or remove the u
 You should create an admin account with which to log in initially.
 
 ```shell-session
-(vnojsite) $ ./manage.py createsuperuser
+(copevenv) $ ./manage.py createsuperuser
 ```
 
 ## Running the server
@@ -131,13 +131,13 @@ You should create an admin account with which to log in initially.
 Now, you should verify that everything is going according to plan.
 
 ```shell-session
-(vnojsite) $ ./manage.py check
+(copevenv) $ ./manage.py check
 ```
 
 At this point, you should attempt to run the server, and see if it all works.
 
 ```shell-session
-(vnojsite) $ ./manage.py runserver 0.0.0.0:8000
+(copevenv) $ ./manage.py runserver 0.0.0.0:8000
 ```
 
 You should Ctrl-C to exit after verifying.
@@ -148,7 +148,7 @@ We will set up a proper webserver using nginx and uWSGI soon.
 You should also test to see if `bridged` runs.
 
 ```shell-session
-(vnojsite) $ ./manage.py runbridged
+(copevenv) $ ./manage.py runbridged
 ```
 
 If there are no errors after about 10 seconds, it probably works.
@@ -157,7 +157,7 @@ You should Ctrl-C to exit.
 Next, test that the Celery workers run.
 
 ```shell-session
-(vnojsite) $ celery -A dmoj_celery worker
+(copevenv) $ celery -A dmoj_celery worker
 ```
 
 You can Ctrl-C to exit.
@@ -168,18 +168,18 @@ You can Ctrl-C to exit.
 In the rest of this guide, we will be installing `uwsgi` and `nginx` to serve the site, using `supervisord`
 to keep `site` and `bridged` running. It's likely other configurations may work, but they are unsupported.
 
-First, copy our `uwsgi.ini` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/uwsgi.ini)). You should change the paths to reflect your install.
+First, copy our `uwsgi.ini` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/uwsgi.ini)). You should change the paths to reflect your install.
 
 You need to install `uwsgi`.
 
 ```shell-session
-(vnojsite) $ pip3 install uwsgi
+(copevenv) $ pip3 install uwsgi
 ```
 
 To test, run:
 
 ```shell-session
-(vnojsite) $ uwsgi --ini uwsgi.ini
+(copevenv) $ uwsgi --ini uwsgi.ini
 ```
 
 If it says workers are spawned, it probably works.
@@ -193,7 +193,7 @@ You should now install `supervisord` and configure it.
 $ apt install supervisor
 ```
 
-Copy our `site.conf` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/site.conf)) to `/etc/supervisor/conf.d/site.conf`, `bridged.conf` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/bridged.conf)) to `/etc/supervisor/conf.d/bridged.conf`, `celery.conf` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/celery.conf)) to `/etc/supervisor/conf.d/celery.conf` and fill in the fields.
+Copy our `site.conf` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/site.conf)) to `/etc/supervisor/conf.d/site.conf`, `bridged.conf` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/bridged.conf)) to `/etc/supervisor/conf.d/bridged.conf`, `celery.conf` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/celery.conf)) to `/etc/supervisor/conf.d/celery.conf` and fill in the fields.
 
 Next, reload `supervisord` and check that the site, bridged, and celery have started.
 
@@ -212,7 +212,7 @@ Now, it's time to set up `nginx`.
 $ apt install nginx
 ```
 
-You should copy the sample `nginx.conf` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/nginx.conf)), edit it and place it in wherever it is supposed to be for your nginx install.
+You should copy the sample `nginx.conf` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/nginx.conf)), edit it and place it in wherever it is supposed to be for your nginx install.
 
 ?> Typically, `nginx` site files are located in `/etc/nginx/conf.d`.
 Some installations might place it at `/etc/nginx/sites-available` and require a symlink in `/etc/nginx/sites-enabled`.
@@ -265,10 +265,10 @@ You need to uncomment the relevant section in the `nginx` configuration.
 Need to install the dependencies.
 
 ```shell-session
-(vnojsite) $ pip3 install websocket-client
+(copevenv) $ pip3 install websocket-client
 ```
 
-Now copy `wsevent.conf` ([link](https://github.com/VNOI-Admin/vnoj-docs/blob/master/sample_files/wsevent.conf)) to `/etc/supervisor/conf.d/wsevent.conf`, changing paths, and then update supervisor and nginx.
+Now copy `wsevent.conf` ([link](https://github.com/danquan/cope-docs/blob/master/sample_files/wsevent.conf)) to `/etc/supervisor/conf.d/wsevent.conf`, changing paths, and then update supervisor and nginx.
 
 ```shell-session
 $ supervisorctl update

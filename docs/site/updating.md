@@ -9,29 +9,29 @@ The VNOJ is under active development, so occasionally you may wish to update. Th
 First, switch to the site virtual environment, and pull the latest changes.
 
 ```
-(vnojsite) $ git pull origin master
+(copevenv) $ git pull origin master
 ```
 
 Dependencies may have changed since the last time you updated, so install any missing ones now.
 
 ```
-(vnojsite) $ pip3 install -r requirements.txt
+(copevenv) $ pip3 install -r requirements.txt
 ```
 
 The database schema might also have changed, so update it.
 
 ```
-(vnojsite) $ ./manage.py migrate
-(vnojsite) $ ./manage.py check
+(copevenv) $ ./manage.py migrate
+(copevenv) $ ./manage.py check
 ```
 
 Finally, update any static files that may have changed.
 
 ```
-(vnojsite) $ ./make_style.sh
-(vnojsite) $ ./manage.py collectstatic
-(vnojsite) $ ./manage.py compilemessages
-(vnojsite) $ ./manage.py compilejsi18n
+(copevenv) $ ./make_style.sh
+(copevenv) $ ./manage.py collectstatic
+(copevenv) $ ./manage.py compilemessages
+(copevenv) $ ./manage.py compilejsi18n
 ```
 
 That's it! You may wish to condense the above steps into a script you can run at a later time.

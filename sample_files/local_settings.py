@@ -110,7 +110,7 @@ ADMINS = (
 )
 
 # The sender for the aforementioned emails.
-SERVER_EMAIL = 'VNOJ: VNOI Online Judge <vnoj@vnoi.info>'
+SERVER_EMAIL = 'COPE: CSP Online Practice Environment <tuyentincsp@gmail.com>'
 
 
 ################################################
@@ -136,9 +136,9 @@ STATIC_ROOT = '/tmp/static'
 ############################################
 
 ## DMOJ site display settings.
-SITE_NAME = 'VNOJ'
+SITE_NAME = 'COPE'
 SITE_FULL_URL = 'https://oj.vnoi.info'
-SITE_LONG_NAME = 'VNOJ: VNOI Online Judge'
+SITE_LONG_NAME = 'COPE: CSP Online Practice Environment'
 SITE_ADMIN_EMAIL = 'admin@example.com'
 TERMS_OF_SERVICE_URL = '//oj.vnoi.info/tos/'  # Use a flatpage.
 

@@ -18,7 +18,7 @@ In `local_settings.py`, set `RECAPTCHA_PUBLIC_KEY` to the site key, and `RECAPTC
 First, install `django-recaptcha2` in the site virtual environment.
 
 ```shell-session
-(vnojsite) $ pip3 install django-recaptcha2
+(copevenv) $ pip3 install django-recaptcha2
 ```
 
 Finally, open `local_settings.py` in your editor of choice, and add `snowpenguin.django.recaptcha2` to the end of`INSTALLED_APPS`.
